@@ -16,7 +16,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <nav className="py-5 px-10 bg-[#FFDA5F] text-xl flex flex-row justify-between">
+          <div>
+            <a href="/" className="font-[Samarkan] text-3xl">
+              Truck Mitra
+            </a>
+            <span className="ml-3">Admin Panel</span>
+          </div>
+          <a href="/agency">Account</a>
+        </nav>
+        <main className="p-5">{children}</main>
+      </body>
     </html>
   );
 }
