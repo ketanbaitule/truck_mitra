@@ -1,10 +1,15 @@
-export default function TruckDetails() {
-  const truckDetails = {
-    vehicle_no: "MH 12 AB 1234",
-    curr_trip: "Pune to Mumbai",
-    curr_location: "Pune",
-    photo: "https://placehold.co/600x400/22FF44/FFFFFF/png",
+export default async function TruckDetails({
+  truck,
+}: {
+  truck: {
+    vehicle_no: string;
+    insurance_no: string;
+    puc_no: string;
+    last_trip: string;
+    curr_trip: string;
+    photo: string;
   };
+}) {
   return (
     <>
       <div className="flex flex-row justify-between ">
@@ -23,15 +28,19 @@ export default function TruckDetails() {
         <div className="order-2 md:order-1 flex flex-col gap-3">
           <div>
             <h2 className="font-bold text-xl inline">Vehicle Number: </h2>
-            <span className="text-lg">{truckDetails.curr_trip}</span>
+            <span className="text-lg">{truck.vehicle_no}</span>
           </div>
           <div>
             <h2 className="font-bold text-xl inline">Current Trip: </h2>
-            <span className="text-lg">{truckDetails.curr_location}</span>
+            <span className="text-lg">{truck.curr_trip}</span>
+          </div>
+          <div>
+            <h2 className="font-bold text-xl inline">Last Trip: </h2>
+            <span className="text-lg">{truck.last_trip}</span>
           </div>
           <div>
             <h2 className="font-bold text-xl inline">Current Location: </h2>
-            <span className="text-lg">{truckDetails.vehicle_no}</span>
+            <span className="text-lg">(LOC, LAT)</span>
           </div>
           <div>
             <button className="bg-[#FFDA5F] hover:bg-[#FFDA5F/90] uppercase text-black font-semibold py-2 px-4 rounded">
@@ -40,7 +49,7 @@ export default function TruckDetails() {
           </div>
         </div>
         <div className="order-1 md:order-2 border-2 border-black">
-          <img src={truckDetails.photo} alt="Truck" className="w-96 h-60" />
+          <img src={truck.photo} alt="Truck" className="w-96 h-60" />
         </div>
       </div>
     </>
