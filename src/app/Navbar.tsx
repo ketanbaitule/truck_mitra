@@ -20,13 +20,13 @@ export default function Navbar() {
     <>
       <nav className="py-5 px-10 bg-[#FFDA5F] text-xl flex flex-row justify-between">
         <div>
-          <Link href="/">
+          <Link href="/agency">
             <span className="font-[Samarkan] text-3xl">Truck Mitra</span>
             <span className="ml-3 hover:underline">Admin Panel</span>
           </Link>
         </div>
         {isLoggedIn ? (
-          <Link href="/agency">Account</Link>
+          <button>Logout</button>
         ) : (
           <div className="flex flex-row gap-x-4">
             <Link className="hover:underline" href={"/login"}>

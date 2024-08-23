@@ -47,7 +47,11 @@ async function TruckPage({
     <div className="container mx-auto space-y-10 my-10">
       <TruckDetails truck={truck} />
 
-      <DriverDetails />
+      {curr_trip && curr_trip!.length > 0 ? (
+        <DriverDetails driver_id={curr_trip[0].driver_id} />
+      ) : (
+        ""
+      )}
 
       <LocationHistory />
     </div>

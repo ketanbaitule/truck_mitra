@@ -1,11 +1,17 @@
-export default function DriverDetails() {
-  const driverDetails = {
-    name: "Raju Yadav",
-    contact: "9876543210",
-    driver_license: "MH123456789",
-    driver_aadhar: "123456789012",
-    photo: "https://placehold.co/600x400/22FF44/FFFFFF/png",
-  };
+import { createClient } from "@/utils/supabase/server";
+
+export default async function DriverDetails({
+  driver_id,
+}: {
+  driver_id: string;
+}) {
+  const client = createClient();
+  const driverDetails = (
+    await client.from("driver").select().eq("driver_id", driver_id)
+  ).data![0];
+
+  console.log(driverDetails);
+
   return (
     <>
       <div className="flex flex-row justify-between ">
@@ -16,11 +22,11 @@ export default function DriverDetails() {
         <div className="order-2 md:order-1 flex flex-col gap-3">
           <div>
             <h2 className="font-bold text-xl inline">Driver Name: </h2>
-            <span className="text-lg">{driverDetails.name}</span>
+            <span className="text-lg">{driverDetails.driver_name}</span>
           </div>
           <div>
             <h2 className="font-bold text-xl inline">Contact No: </h2>
-            <span className="text-lg">{driverDetails.contact}</span>
+            <span className="text-lg">{driverDetails.driver_contact}</span>
           </div>
           <div>
             <h2 className="font-bold text-xl inline">Driver License: </h2>
