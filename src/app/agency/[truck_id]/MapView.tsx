@@ -5,38 +5,66 @@ import { TileLayer } from "react-leaflet/TileLayer";
 import { Polyline } from "react-leaflet/Polyline";
 import { LatLng } from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useMap } from "react-leaflet";
 import L from "leaflet";
+import { createClient } from "@/utils/supabase/client";
 
 export default function MapView({
-  _center,
   _polyline,
+  vehicle_no,
+  from,
+  to,
 }: {
-  _center: number[];
   _polyline: number[][];
+  vehicle_no: string;
+  from: string;
+  to: string;
 }) {
-  const center: LatLng = new LatLng(_center[0], _center[1]);
-  const polyline: LatLng[] = [];
+  const [polyline, setPolyLine] = useState<LatLng[]>([]);
+  useEffect(() => {
+    let t1 = client
+      .channel("room1")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "locations" },
+        (payload) => {
+          console.log("Change received!", payload);
+          if (payload.new.truck_id == vehicle_no)
+            setPolyLine((old) => {
+              const updatedPolyLine = [
+                ...old,
+                new LatLng(payload.new.lat, payload.new.long),
+              ];
+              return updatedPolyLine;
+            });
+        },
+      )
+      .subscribe();
+    console.log("t1", t1);
+  }, []);
+  if (_polyline.length == 0) return <>No Location Data Store </>;
+  const client = createClient();
+
+  let meanLat = 0;
+  let meanLong = 0;
   for (const coordinate of _polyline) {
+    meanLat += coordinate[0];
+    meanLong += coordinate[1];
+
     polyline.push(new LatLng(coordinate[0], coordinate[1]));
   }
-  const limeOptions = { color: "lime" };
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      const lat = 5;
-      const long = 5;
-      polyline.push(new LatLng(lat, long));
-      console.log("polyline");
-    });
-  }, []);
+  meanLat = meanLat / _polyline.length;
+  meanLong = meanLong / _polyline.length;
+
+  const limeOptions = { color: "lime" };
 
   return (
     <>
       <MapContainer
         className="h-[80vh] w-full relative"
-        center={center}
+        center={new LatLng(meanLat, meanLong)}
         zoom={17}
       >
         <TileLayer

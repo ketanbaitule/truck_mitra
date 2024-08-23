@@ -9,7 +9,6 @@ export default function Navbar() {
 
   useEffect(() => {
     client.auth.onAuthStateChange((event, session) => {
-      console.log(event, session);
       if (isLoggedIn && !session) {
         setIsLoggedIn(false);
       } else if (!isLoggedIn && session) {
