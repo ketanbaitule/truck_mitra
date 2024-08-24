@@ -33,8 +33,8 @@ export default function MapView({
           if (payload.new.truck_id == vehicle_no)
             setPolyLine((old) => {
               const updatedPolyLine = [
-                new LatLng(payload.new.lat, payload.new.long),
                 ...old,
+                new LatLng(payload.new.lat, payload.new.long),
               ];
               return updatedPolyLine;
             });

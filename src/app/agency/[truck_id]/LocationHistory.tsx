@@ -14,14 +14,16 @@ export default async function LocationHistory({
   // ];
   //
   const client = createClient();
-  const polyline_ = (
-    await client
-      .from("locations")
-      .select()
-      .eq("truck_id", vehicle_no)
-      .order("timestamp", { ascending: false, nullsFirst: false })
-      .limit(100)
-  ).data;
+  const polyline_ =
+    // .limit(10000)
+    (
+      await client
+        .from("locations")
+        .select()
+        .eq("truck_id", vehicle_no)
+        .order("timestamp", { ascending: true, nullsFirst: false })
+        .limit(1000)
+    ).data;
 
   console.log(polyline_);
 
@@ -53,10 +55,12 @@ export default async function LocationHistory({
       <div id="map">
         <MapView _polyline={_polyline} vehicle_no={vehicle_no} from="" to="" />
       </div>
-      <LiveLocationHistoryModal
-        _locations={polyline_!}
-        vehicle_no={vehicle_no}
-      />
+      <div className="h-96 overflow-y-scroll">
+        <LiveLocationHistoryModal
+          _locations={polyline_!}
+          vehicle_no={vehicle_no}
+        />
+      </div>
     </div>
   );
 }

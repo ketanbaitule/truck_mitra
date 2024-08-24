@@ -45,12 +45,12 @@ function LiveLocationHistoryModal({
           if (payload.new.truck_id == vehicle_no)
             setLocations((old: LatLangTimestamp[]) => {
               const updatedPolyLine = [
+                ...old,
                 {
                   timestamp: payload.new.timestamp,
                   lat: payload.new.lat,
                   long: payload.new.long,
                 },
-                ...old,
               ];
               return updatedPolyLine;
             });
