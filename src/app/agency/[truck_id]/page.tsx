@@ -19,7 +19,7 @@ async function TruckPage({
     await client
       .from("trips")
       .select()
-      .eq("vehicle_no", truck.vehicle_no)
+      .eq("vehicle_no", truck_id)
       .eq("isCompleted", true)
       .order("created_at", { ascending: false, nullsFirst: false })
       .limit(1)
@@ -29,7 +29,7 @@ async function TruckPage({
     await client
       .from("trips")
       .select()
-      .eq("vehicle_no", truck.vehicle_no)
+      .eq("vehicle_no", truck_id)
       .eq("isCompleted", false)
       .limit(1)
   ).data;
@@ -53,7 +53,7 @@ async function TruckPage({
         ""
       )}
 
-      <LocationHistory />
+      <LocationHistory vehicle_no={truck_id} />
     </div>
   );
 }

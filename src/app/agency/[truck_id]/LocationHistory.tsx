@@ -1,8 +1,12 @@
 import { createClient } from "@/utils/supabase/client";
 import MapView from "./MapView";
+import LiveLocationHistoryModal from "./LiveLocationHistoryModal";
 
-export default async function LocationHistory() {
-  const vehicle_no = "MH31AB2308";
+export default async function LocationHistory({
+  vehicle_no,
+}: {
+  vehicle_no: string;
+}) {
   // const polyline = [
   //   [21.096196458851442, 78.97859335333851],
   //   [21.095586457851342, 78.97859335333851],
@@ -16,8 +20,10 @@ export default async function LocationHistory() {
       .select()
       .eq("truck_id", vehicle_no)
       .order("timestamp", { ascending: false, nullsFirst: false })
-      .limit(20)
+      .limit(100)
   ).data;
+
+  console.log(polyline_);
 
   const _polyline = [];
 
@@ -29,9 +35,11 @@ export default async function LocationHistory() {
 
   return (
     <div className="space-y-9">
-      <h1 className="font-bold text-3xl underline font-sans">
-        Location History
-      </h1>
+      <div className="flex flex-row justify-between">
+        <h1 className="font-bold text-3xl underline font-sans" id="tracking">
+          Location History
+        </h1>
+      </div>
       <div className="flex flex-row">
         <div>
           <b>From: </b>
@@ -45,6 +53,10 @@ export default async function LocationHistory() {
       <div id="map">
         <MapView _polyline={_polyline} vehicle_no={vehicle_no} from="" to="" />
       </div>
+      <LiveLocationHistoryModal
+        _locations={polyline_!}
+        vehicle_no={vehicle_no}
+      />
     </div>
   );
 }

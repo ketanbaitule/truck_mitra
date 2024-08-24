@@ -10,8 +10,6 @@ export default async function DriverDetails({
     await client.from("driver").select().eq("driver_id", driver_id)
   ).data![0];
 
-  console.log(driverDetails);
-
   return (
     <>
       <div className="flex flex-row justify-between ">
