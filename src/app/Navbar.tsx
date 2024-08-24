@@ -1,6 +1,7 @@
 "use client";
 import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Navbar() {
@@ -26,7 +27,14 @@ export default function Navbar() {
           </Link>
         </div>
         {isLoggedIn ? (
-          <button>Logout</button>
+          <button
+            onClick={() => {
+              client.auth.signOut();
+              redirect("/login");
+            }}
+          >
+            Logout
+          </button>
         ) : (
           <div className="flex flex-row gap-x-4">
             <Link className="hover:underline" href={"/login"}>
